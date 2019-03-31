@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  cqhttp:
+    image: richardchien/cqhttp:latest
+    ports:
+        - "9000:9000"  # noVNC 管理
+        - "127.0.0.1:5700:5700"  # CQHTTP 默认的 HTTP 端口
+        - "127.0.0.1:6700:6700"  # CQHTTP 默认的 WebSocket 端口
+          # - "127.0.0.1:8080:8080"
+    restart: always  # 重启策略
+    volumes:
+        - ./coolq/:/home/user/coolq/  # 挂载 酷Q 主目录
+    environment:
+        VNC_PASSWD: balabala # noVNC 连接密码
+        COOLQ_ACCOUNT: 3610415516  # 要登录的机器人 QQ 号
+        FORCE_ENV: "true"
+        CQHTTP_SERVE_DATA_FILES: "true"
+        CQHTTP_USE_WS: "true"
+        CQHTTP_USE_WS_REVERSE: "true"
+        CQHTTP_WS_REVERSE_EVENT_URL: "ws://172.17.0.1:8080/ws/event/"
+        CQHTTP_WS_REVERSE_API_URL: "ws://172.17.0.1:8080/ws/api/"
