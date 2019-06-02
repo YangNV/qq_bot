@@ -1,17 +1,20 @@
 version: '2'
 
 services:
-  networks:
-    - qqbot
 
 
   cqhttp:
+#    network_mode: "service:qq_bot"
     image: richardchien/cqhttp:latest
+
     ports:
         - "9000:9000"  # noVNC 管理
-        - "127.0.0.1:5700:5700"  # CQHTTP 默认的 HTTP 端口
-        - "127.0.0.1:6700:6700"  # CQHTTP 默认的 WebSocket 端口
-          # - "127.0.0.1:8080:8080"
+#        - "127.0.0.1:5700:5700"  # CQHTTP 默认的 HTTP 端口
+#        - "127.0.0.1:6700:6700"  # CQHTTP 默认的 WebSocket 端口
+#          # - "127.0.0.1:8080:8080"
+    expose:
+      - "5700"
+      - "6700"
     restart: always  # 重启策略
     volumes:
         - ./coolq/:/home/user/coolq/  # 挂载 酷Q 主目录
@@ -22,5 +25,15 @@ services:
         CQHTTP_SERVE_DATA_FILES: "true"
         CQHTTP_USE_WS: "true"
         CQHTTP_USE_WS_REVERSE: "true"
-        CQHTTP_WS_REVERSE_EVENT_URL: "ws://172.17.0.1:8080/ws/event/"
-        CQHTTP_WS_REVERSE_API_URL: "ws://172.17.0.1:8080/ws/api/"
+        CQHTTP_WS_REVERSE_EVENT_URL: "ws://qqbot:8080/ws/event/"
+        CQHTTP_WS_REVERSE_API_URL: "ws://qqbot:8080/ws/api/"
+
+
+  qqbot:
+    image: python:3
+    restart: always
+    working_dir: /usr/src/app
+    volumes:
+      - ../python_core/:/usr/src/app/
+    entrypoint: /usr/src/app/start.sh
+
