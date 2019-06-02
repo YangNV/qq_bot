@@ -30,9 +30,13 @@ services:
 
 
   qqbot:
+    depends_on:
+      - cqhttp
     image: python:3
     restart: always
     working_dir: /usr/src/app
+    expose:
+      - "8080"
     volumes:
       - ../python_core/:/usr/src/app/
     entrypoint: /usr/src/app/start.sh
