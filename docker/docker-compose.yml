@@ -34,7 +34,7 @@ services:
       - cqhttp
     build:
       context: ../
-      dockerfile: ./docker-compose/Dockerfile
+      dockerfile: ./docker/Dockerfile
     restart: always
     expose:
       - "8080"
