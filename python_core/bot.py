@@ -1,6 +1,6 @@
 import nonebot
 import os
-from python_core import config
+import config
 
 if __name__ == '__main__':
     nonebot.init(config)
