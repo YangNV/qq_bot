@@ -32,7 +32,9 @@ services:
   qqbot:
     depends_on:
       - cqhttp
-    build: ./
+    build:
+      context: ../
+      dockerfile: ./docker-compose/Dockerfile
     restart: always
     expose:
       - "8080"
